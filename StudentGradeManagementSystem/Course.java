@@ -1,4 +1,4 @@
-import java.util.HashMap;
+import java.util.HashMap; // This file represents course data
 import java.util.Map;
 
 public class Course {

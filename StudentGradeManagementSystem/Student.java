@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+import java.util.ArrayList; // This fule represent stident data
 import java.util.List;
 
 public class Student {

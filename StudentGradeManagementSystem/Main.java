@@ -1,4 +1,4 @@
-import java.util.Scanner;
+import java.util.Scanner; //Entry point of the application
 
 public class Main {
     private static GradeManager gradeManager = new GradeManager();
