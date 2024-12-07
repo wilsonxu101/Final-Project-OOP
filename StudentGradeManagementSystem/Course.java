@@ -1,45 +1,36 @@
-import java.util.HashMap; // This file represents course data
-import java.util.Map;
-
-public class Course {
-    private String code;
-    private String name;
+// I am showing an a course with a course code, name, and instructor.
+ // We also tracks student grades for students enrolled in the course.
+ 
+ public class Course {
+    private String courseName;
+    private String courseCode;
     private String instructor;
-    private Map<String, Integer> studentGrades;
 
-    public Course(String code, String name, String instructor) {
-        this.code = code;
-        this.name = name;
+    public Course(String courseName, String courseCode, String instructor) {
+        this.courseName = courseName;
+        this.courseCode = courseCode;
         this.instructor = instructor;
-        this.studentGrades = new HashMap<>();
     }
 
-    public String getCode() {
-        return code;
+    public String getCourseName() {
+        return courseName;
     }
 
-    public String getName() {
-        return name;
+    public String getCourseCode() {
+        return courseCode;
     }
 
     public String getInstructor() {
         return instructor;
     }
 
-    public void assignGrade(String studentId, int grade) {
-        studentGrades.put(studentId, grade);
+    public void setCourseName(String name) {
+        if (name == null || name.trim().isEmpty()) return; 
+        this.courseName = name.trim();
     }
 
-    public Map<String, Integer> getStudentGrades() {
-        return studentGrades;
-    }
-
-    @Override
-    public String toString() {
-        return "Course{" +
-                "code='" + code + '\'' +
-                ", name='" + name + '\'' +
-                ", instructor='" + instructor + '\'' +
-                '}';
+    public void setInstructor(String instructor) {
+        if (instructor == null || instructor.trim().isEmpty()) return;
+        this.instructor = instructor.trim();
     }
 }
