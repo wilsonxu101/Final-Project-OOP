@@ -27,34 +27,37 @@ public class GradeManager { // List of all students and courses
 
     public boolean updateStudent(String id, String newName) {
         Student s = getStudentById(id);
-        if (s == null) return false;
+        if (s == null)
+            return false;
         s.setName(newName);
         return true;
     }
 
     public boolean deleteStudent(String id) {
         Student s = getStudentById(id);
-        if (s == null) return false;
+        if (s == null)
+            return false;
         students.remove(s);
         return true;
     }
 
     public Student getStudentById(String id) {
         for (Student s : students) {
-            if (s.getStudentId().equals(id)) return s;
+            if (s.getStudentId().equals(id))
+                return s;
         }
         return null;
     }
 
     // This is for course management methods
     public boolean addCourse(String name, String code, String instructor) {
-        if (name == null || name.trim().isEmpty() 
-            || code == null || code.trim().isEmpty() 
-            || instructor == null || instructor.trim().isEmpty()) {
+        if (name == null || name.trim().isEmpty()
+                || code == null || code.trim().isEmpty()
+                || instructor == null || instructor.trim().isEmpty()) {
             return false;
         }
         if (getCourseByCode(code) != null) {
-            return false; 
+            return false;
         }
         courses.add(new Course(name.trim(), code.trim(), instructor.trim()));
         return true;
@@ -62,17 +65,21 @@ public class GradeManager { // List of all students and courses
 
     public boolean updateCourse(String code, String newName, String newInstructor) {
         Course c = getCourseByCode(code);
-        if (c == null) return false;
-        if (newName != null && !newName.trim().isEmpty()) c.setCourseName(newName);
-        if (newInstructor != null && !newInstructor.trim().isEmpty()) c.setInstructor(newInstructor);
+        if (c == null)
+            return false;
+        if (newName != null && !newName.trim().isEmpty())
+            c.setCourseName(newName);
+        if (newInstructor != null && !newInstructor.trim().isEmpty())
+            c.setInstructor(newInstructor);
         return true;
     }
 
     public boolean deleteCourse(String code) {
         Course c = getCourseByCode(code);
-        if (c == null) return false;
+        if (c == null)
+            return false;
         courses.remove(c);
-        // Remove this course 
+        // Remove this course
         for (Student s : students) {
             s.removeCourse(code);
         }
@@ -81,18 +88,22 @@ public class GradeManager { // List of all students and courses
 
     public Course getCourseByCode(String code) {
         for (Course c : courses) {
-            if (c.getCourseCode().equals(code)) return c;
+            if (c.getCourseCode().equals(code))
+                return c;
         }
         return null;
     }
 
-    //Assign Grades
+    // Assign Grades
     public boolean assignGradeToStudent(String studentId, String courseCode, int grade) {
-        if (grade < 0 || grade > 100) return false;
+        if (grade < 0 || grade > 100)
+            return false;
         Student s = getStudentById(studentId);
-        if (s == null) return false;
+        if (s == null)
+            return false;
         Course c = getCourseByCode(courseCode);
-        if (c == null) return false;
+        if (c == null)
+            return false;
         if (!s.isEnrolledInCourse(courseCode)) {
             s.enrollInCourse(courseCode);
         }
@@ -100,16 +111,17 @@ public class GradeManager { // List of all students and courses
         return true;
     }
 
-    //Enrollment 
+    // Enrollment
     public boolean enrollStudentInCourse(String studentId, String courseCode) {
         Student s = getStudentById(studentId);
         Course c = getCourseByCode(courseCode);
-        if (s == null || c == null) return false;
+        if (s == null || c == null)
+            return false;
         s.enrollInCourse(courseCode);
         return true;
     }
 
-    //Searching
+    // Searching
     public List<Student> searchStudentsByName(String name) {
         List<Student> result = new ArrayList<>();
         for (Student s : students) {
@@ -130,7 +142,7 @@ public class GradeManager { // List of all students and courses
         return result;
     }
 
-    //Reporting
+    // Reporting
     public void printStudentPerformance(Student s) {
         double avg = s.getAverageGrade();
         String category = getPerformanceCategory(avg);
@@ -171,21 +183,24 @@ public class GradeManager { // List of all students and courses
                 if (g >= 0 && g <= 100) {
                     totalSum += g;
                     totalCount++;
-                    if (g < globalMin) globalMin = g;
-                    if (g > globalMax) globalMax = g;
+                    if (g < globalMin)
+                        globalMin = g;
+                    if (g > globalMax)
+                        globalMax = g;
                 }
             }
         }
 
         double classAverage = (totalCount == 0) ? 0.0 : totalSum / totalCount;
 
-        System.out.println("Overall Class Performance:");
+        System.out.println("\nOverall Class Performance:");
         System.out.println("Class Average: " + String.format("%.2f", classAverage));
-        if (globalMin == Integer.MAX_VALUE) globalMin = -1;
+        if (globalMin == Integer.MAX_VALUE)
+            globalMin = -1;
         System.out.println("Highest Grade: " + (globalMax == -1 ? "N/A" : globalMax));
         System.out.println("Lowest Grade: " + (globalMin == -1 ? "N/A" : globalMin));
 
-        System.out.println("Individual Student Performance:");
+        System.out.println("\nIndividual Student Performance:");
         for (Student s : students) {
             double avg = s.getAverageGrade();
             System.out.println("---------------------------------");
@@ -198,9 +213,12 @@ public class GradeManager { // List of all students and courses
     }
 
     private String getPerformanceCategory(double avg) {
-        if (avg >= 90) return "Excellent";
-        else if (avg >= 70) return "Good";
-        else return "Needs Improvement";
+        if (avg >= 90)
+            return "Excellent";
+        else if (avg >= 70)
+            return "Good";
+        else
+            return "Needs Improvement";
     }
 
     public void printStudentsWithDetails(List<Student> studentList) {
@@ -228,7 +246,8 @@ public class GradeManager { // List of all students and courses
                 for (Student s : enrolledStudents) {
                     Integer grade = s.getCourseGrades().get(c.getCourseCode());
                     String gradeStr = (grade == null || grade < 0) ? "No grade assigned" : grade.toString();
-                    System.out.println("  Student: " + s.getName() + " (ID: " + s.getStudentId() + ") - Grade: " + gradeStr);
+                    System.out.println(
+                            "  Student: " + s.getName() + " (ID: " + s.getStudentId() + ") - Grade: " + gradeStr);
                 }
             }
             System.out.println("---------------------------------");
