@@ -14,9 +14,16 @@ public class Main {
     private static void startMenu() {
         // user specifies if student or faculty
         System.out.println("Welcome to the Student Grade Management System!");
-
-        System.out.print("Enter (s) if you are a student or (f) if you are faculty: ");
-        String userType = sc.nextLine().trim();
+        String userType = "";
+        while (true) {
+            System.out.print("Enter (s) if you are a student or (f) if you are faculty: ");
+            userType = sc.nextLine().trim();
+            if (userType.equals("s") || userType.equals("f")) {
+                break;
+            } else {
+                System.out.println("Invalid input, try again with either 's' or 'f'.");
+            }
+        }
         runMainMenu(userType.toLowerCase()); // starts the main menu for user to interact
     }
 
