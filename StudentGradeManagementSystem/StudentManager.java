@@ -84,7 +84,6 @@ public class StudentManager {
         for (Student s : students) {
             List<Course> courses = s.getEnrolledCourses();
 
-            // Use iterator to avoid ConcurrentModificationException
             courses.removeIf(course -> course.getCourseCode().equals(code));
         }
     }

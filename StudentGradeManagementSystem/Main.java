@@ -247,9 +247,9 @@ public class Main {
         String code = sc.nextLine().trim();
 
         boolean success = courseManager.deleteCourse(code);
-        studentManager.unenrollStudentFromCourse(code);
 
         if (success) {
+            studentManager.unenrollStudentFromCourse(code);
             System.out.println("Course deleted successfully!");
         } else {
             System.out.println("No course found with that code.");
