@@ -61,9 +61,31 @@ public class StudentManager {
         return null;
     }
 
-    public void removeCourse(String code) {
+    // enroll student to course
+    public boolean enrollStudentInCourse(String id, Course course) {
+        Student s = getStudentById(id);
+
+        // if student does not exist
+        if (s == null) {
+            return false;
+        }
+
+        boolean courseAdded = s.addCourse(course);
+
+        if (courseAdded) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    // unenroll students from course when it is deleted
+    public void unenrollStudentFromCourse(String code) {
         for (Student s : students) {
-            s.removeCourse(code);
+            List<Course> courses = s.getEnrolledCourses();
+
+            // Use iterator to avoid ConcurrentModificationException
+            courses.removeIf(course -> course.getCourseCode().equals(code));
         }
     }
 }

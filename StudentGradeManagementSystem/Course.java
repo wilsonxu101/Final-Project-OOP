@@ -1,6 +1,3 @@
-// I am showing an a course with a course code, name, and instructor.
-// We also tracks student grades for students enrolled in the course.
-
 public class Course {
     private String courseName;
     private String code;

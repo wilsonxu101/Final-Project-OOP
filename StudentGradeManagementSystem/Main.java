@@ -92,9 +92,9 @@ public class Main {
                 case "3":
                     deleteStudent();
                     break;
-                // case "4":
-                // enrollStudentInCourse();
-                // break;
+                case "4":
+                    enrollStudentInCourse();
+                    break;
                 case "5":
                     return;
                 default:
@@ -175,6 +175,33 @@ public class Main {
         }
     }
 
+    private static void enrollStudentInCourse() {
+        System.out.print("\nEnter Student ID: ");
+        String studentId = sc.nextLine().trim();
+
+        if (studentManager.getStudentById(studentId) == null) {
+            System.out.println("No student found with that ID.");
+            return;
+        }
+
+        System.out.print("Enter Course Code: ");
+        String courseCode = sc.nextLine().trim();
+
+        if (courseManager.getCourseByCode(courseCode) == null) {
+            System.out.println("No course found with that code.");
+            return;
+        }
+
+        Course newCourse = courseManager.getCourseByCode(courseCode);
+        boolean success = studentManager.enrollStudentInCourse(studentId, newCourse);
+
+        if (success) {
+            System.out.println("Student enrolled in course successfully!");
+        } else {
+            System.out.println("Failed to enroll student in course.");
+        }
+    }
+
     // course operations
     private static void addCourse() {
         System.out.print("\nEnter Course Name: ");
@@ -220,7 +247,7 @@ public class Main {
         String code = sc.nextLine().trim();
 
         boolean success = courseManager.deleteCourse(code);
-        studentManager.removeCourse(code);
+        studentManager.unenrollStudentFromCourse(code);
 
         if (success) {
             System.out.println("Course deleted successfully!");
