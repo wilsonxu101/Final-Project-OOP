@@ -31,7 +31,7 @@ public class Student {
         return courseGrades;
     }
 
-    public void assignGrade(String courseCode, int grade) {// assign grade to a student for a specific course
+    public void assignGrade(String courseCode, int grade) { // assign grade to a student for a specific course
         courseGrades.put(courseCode, grade);
     }
 
@@ -41,7 +41,7 @@ public class Student {
 
     public void enrollInCourse(String courseCode) {
         if (!courseGrades.containsKey(courseCode)) {
-            // I did -1 to indicate enrolled but no grade is actually assign for now
+            // -1 to indicate enrolled but no grade is actually assigned 
             courseGrades.put(courseCode, -1);
         }
     }

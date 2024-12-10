@@ -12,7 +12,9 @@ public class Main {
     public static void main(String[] args) {
         // user specifies if student or faculty
         System.out.println("Welcome to the Student Grade Management System!");
+
         String userType = "";
+
         while (true) {
             System.out.print("Enter (s) if you are a student or (f) if you are faculty: ");
             userType = sc.nextLine().trim();
@@ -45,20 +47,20 @@ public class Main {
             String choice = sc.nextLine().trim();
             switch (choice) {
                 case "1":
-                    manageStudentsMenu();
+                    manageStudents();
                     break;
                 case "2":
-                    manageCoursesMenu();
+                    manageCourses();
                     break;
-                case "3":
-                    assignGradesMenu();
-                    break;
-                case "4":
-                    searchRecordsMenu();
-                    break;
-                case "5":
-                    generateReportsMenu();
-                    break;
+                // case "3":
+                // assignGradesMenu();
+                // break;
+                // case "4":
+                // searchRecordsMenu();
+                // break;
+                // case "5":
+                // generateReportsMenu();
+                // break;
                 case "6":
                     System.out.println(
                             "\nThank you for using the Student Grade Management System! This is a reminder that all data will be lost.");
@@ -69,7 +71,7 @@ public class Main {
         }
     }
 
-    private static void manageStudentsMenu() {
+    private static void manageStudents() {
         while (true) {
             System.out.println("\nManage Students:");
             System.out.println("1. Add Student Record");
@@ -101,7 +103,7 @@ public class Main {
         }
     }
 
-    private static void manageCoursesMenu() {
+    private static void manageCourses() {
         while (true) {
             System.out.println("\nManage Courses:");
             System.out.println("1. Add Course");
