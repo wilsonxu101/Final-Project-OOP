@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-    private static GradeManager gradeManager = new GradeManager();
+    // private static GradeManager gradeManager = new GradeManager();
     private static StudentManager studentManager = new StudentManager();
     private static CourseManager courseManager = new CourseManager();
     private static Scanner sc = new Scanner(System.in);
@@ -92,14 +92,58 @@ public class Main {
                 case "3":
                     deleteStudent();
                     break;
-                case "4":
-                    enrollStudentInCourse();
-                    break;
+                // case "4":
+                // enrollStudentInCourse();
+                // break;
                 case "5":
                     return;
                 default:
                     System.out.println("Invalid input. Please choose a valid option (1-5).");
             }
+        }
+    }
+
+    // student operations
+    private static void addStudent() {
+        System.out.print("\nEnter Student Name: ");
+        String name = sc.nextLine().trim();
+        System.out.print("Enter Student ID: ");
+        String id = sc.nextLine().trim();
+
+        boolean success = studentManager.addStudent(name, id);
+
+        if (success) {
+            System.out.println("Student added successfully!");
+        } else {
+            System.out.println("Failed to add student. Check if the ID is unique and inputs are valid.");
+        }
+    }
+
+    private static void updateStudent() {
+        System.out.print("\nEnter Student ID to update: ");
+        String id = sc.nextLine().trim();
+        System.out.print("Enter new name: ");
+        String newName = sc.nextLine().trim();
+
+        boolean success = studentManager.updateStudent(id, newName);
+
+        if (success) {
+            System.out.println("Student updated successfully!");
+        } else {
+            System.out.println("Failed to update student.");
+        }
+    }
+
+    private static void deleteStudent() {
+        System.out.print("\nEnter Student ID to delete: ");
+        String id = sc.nextLine().trim();
+
+        boolean success = studentManager.deleteStudent(id);
+
+        if (success) {
+            System.out.println("Student deleted successfully!");
+        } else {
+            System.out.println("No student found with that ID.");
         }
     }
 
@@ -126,9 +170,62 @@ public class Main {
                 case "4":
                     return;
                 default:
-                    System.out.println("\nInvalid input. Please choose a valid option (1-4)."); // data validation and
-                                                                                                // error handling
+                    System.out.println("\nInvalid input. Please choose a valid option (1-4).");
             }
+        }
+    }
+
+    // course operations
+    private static void addCourse() {
+        System.out.print("\nEnter Course Name: ");
+        String name = sc.nextLine().trim();
+        System.out.print("Enter Course Code: ");
+        String code = sc.nextLine().trim();
+        System.out.print("Enter Instructor Name: ");
+        String instructor = sc.nextLine().trim();
+
+        boolean success = courseManager.addCourse(name, code, instructor);
+
+        if (success) {
+            System.out.println("Course added successfully!");
+        } else {
+            System.out.println("Failed to add course. Check if the code is unique and inputs are valid.");
+        }
+    }
+
+    private static void updateCourse() {
+        System.out.print("\nEnter Course Code to update: ");
+        String code = sc.nextLine().trim();
+
+        if (courseManager.getCourseByCode(code) == null) {
+            System.out.println("No course found with that code.");
+            return;
+        }
+
+        System.out.print("Enter new course name (leave blank to skip): ");
+        String newName = sc.nextLine().trim();
+        System.out.print("Enter new instructor name (leave blank to skip): ");
+        String newInstructor = sc.nextLine().trim();
+
+        boolean success = courseManager.updateCourse(code, newName, newInstructor);
+        if (success) {
+            System.out.println("Course updated successfully!");
+        } else {
+            System.out.println("Failed to update course.");
+        }
+    }
+
+    private static void deleteCourse() {
+        System.out.print("\nEnter Course Code to delete: ");
+        String code = sc.nextLine().trim();
+
+        boolean success = courseManager.deleteCourse(code);
+        studentManager.removeCourse(code);
+
+        if (success) {
+            System.out.println("Course deleted successfully!");
+        } else {
+            System.out.println("No course found with that code.");
         }
     }
 }
