@@ -61,6 +61,21 @@ public class StudentManager {
         return null;
     }
 
+    // get student by name 
+    public Student getStudentByName(String name) {
+        for (Student s : students) {
+            if (s.getName().equalsIgnoreCase(name)) {
+                return s;
+            }
+        }
+        return null;
+    }
+
+    public List<Student> getStudentsInCourse(String courseCode, CourseManager courseManager) {
+        Course course = courseManager.getCourseByCode(courseCode);
+        return (course != null) ? course.getEnrolledStudents() : new ArrayList<>();
+    }    
+
     // enroll student to course
     public boolean enrollStudentInCourse(String id, Course course) {
         Student s = getStudentById(id);
@@ -73,6 +88,7 @@ public class StudentManager {
         boolean courseAdded = s.addCourse(course);
 
         if (courseAdded) {
+            course.addStudent(s);
             return true;
         } else {
             return false;

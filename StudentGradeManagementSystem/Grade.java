@@ -8,4 +8,20 @@ public class Grade {
         this.studentId = studentId;
         this.grade = grade;
     }
+
+    public String getStudentId() {
+        return studentId;
+    }
+
+    public String getCourseCode() {
+        return code;
+    }
+
+    public float getGrade() {
+        return grade;
+    }
+
+    public void setGrade(int grade) {
+        this.grade = grade;
+    }
 }

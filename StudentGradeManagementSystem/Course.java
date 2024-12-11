@@ -1,12 +1,17 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Course {
     private String courseName;
     private String code;
     private String instructor;
+    private List<Student> enrolledStudents;
 
     public Course(String courseName, String code, String instructor) {
         this.courseName = courseName;
         this.code = code;
         this.instructor = instructor;
+        this.enrolledStudents = new ArrayList<>();
     }
 
     public String getCourseName() {
@@ -19,6 +24,20 @@ public class Course {
 
     public String getInstructor() {
         return instructor;
+    }
+
+    public List<Student> getEnrolledStudents() {
+        return enrolledStudents;
+    }
+
+    public void addStudent(Student student) {
+        if (!enrolledStudents.contains(student)) {
+            enrolledStudents.add(student);
+        }
+    }
+
+    public void removeStudent(Student student) {
+        enrolledStudents.remove(student);
     }
 
     public void setCourseName(String name) {

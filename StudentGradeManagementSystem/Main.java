@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-    // private static GradeManager gradeManager = new GradeManager();
+    private static GradeManager gradeManager = new GradeManager();
     private static StudentManager studentManager = new StudentManager();
     private static CourseManager courseManager = new CourseManager();
     private static Scanner sc = new Scanner(System.in);
@@ -52,12 +52,12 @@ public class Main {
                 case "2":
                     manageCourses();
                     break;
-                // case "3":
-                // assignGradesMenu();
-                // break;
-                // case "4":
-                // searchRecordsMenu();
-                // break;
+                case "3":
+                    assignGrades();
+                    break;
+                case "4":
+                    searchRecords();
+                    break;
                 // case "5":
                 // generateReportsMenu();
                 // break;
@@ -255,4 +255,128 @@ public class Main {
             System.out.println("No course found with that code.");
         }
     }
+
+    private static void assignGrades() {
+        System.out.println("\nAssign Grades:");
+        System.out.print("Enter Student ID: ");
+        String studentId = sc.nextLine().trim();
+        if (studentManager.getStudentById(studentId) == null) {
+            System.out.println("Student doesn't exist.");
+            return;
+        }
+    
+        System.out.print("Enter Course Code: ");
+        String courseCode = sc.nextLine().trim();
+        if (courseManager.getCourseByCode(courseCode) == null) {
+            System.out.println("Course doesn't exist.");
+            return;
+        }
+    
+        System.out.print("Enter Grade (0-100): ");
+        float grade;
+        try {
+            grade = Float.parseFloat(sc.nextLine().trim());
+            if (grade < 0 || grade > 100) {
+                System.out.println("Invalid input. Grade must be between 0 and 100.");
+                return;
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid input.");
+            return;
+        }
+    
+        gradeManager.setGrades(courseCode, studentId, grade, courseManager, studentManager);
+    
+    }
+    private static void searchRecords() {
+        while (true) {
+            System.out.println("\nSearch Records:");
+            System.out.println("1. Search by Student Name");
+            System.out.println("2. Search by Course Name");
+            System.out.println("3. Back to Main Menu");
+
+            System.out.print("Please select an option: ");
+            String choice = sc.nextLine().trim();
+            switch (choice) {
+                case "1":
+                    searchStudents();
+                    break;
+                case "2":
+                    searchCourses();
+                    break;
+                case "3":
+                    return;
+                default:
+                    System.out.println("Invalid input. Please choose a valid option (1-3).");
+            }
+        }
+    }
+
+    private static void searchStudents() {
+        System.out.print("\nEnter Student Name: ");
+        String name = sc.nextLine().trim();
+        if (studentManager.getStudentByName(name) == null) {
+            System.out.println("Student doesn't exist.");
+        } else {
+            displayStudentReport(name, gradeManager);
+        }
+    }
+
+    public static void displayStudentReport(String studentName, GradeManager gradeManager) {
+        Student s = studentManager.getStudentByName(studentName);
+        System.out.println("Name: " + s.getName());
+        System.out.println("ID: " + s.getStudentId());
+        List<Course> enrolledCourses = s.getEnrolledCourses();
+        System.out.println("Enrolled Courses:");
+        if (enrolledCourses.isEmpty()) {
+            System.out.println("No courses enrolled.");
+        } else {
+            for (Course course : enrolledCourses) {
+                Float grade = gradeManager.getGrade(s.getStudentId(), course.getCourseCode());
+                String gradeStr = (grade == null) ? "No grade assigned" : String.format("%.2f", grade);
+                System.out.println("  - " + course.getCourseName() + " (" + course.getCourseCode() + "): " + gradeStr);
+            }
+        }
+        double avg = gradeManager.getAverageGrade(s.getStudentId());
+        float max = gradeManager.getMaxGrade(s.getStudentId());
+        float min = gradeManager.getMinGrade(s.getStudentId());
+
+        System.out.println("\nGrades:");
+        System.out.println("Average Grade: " + (Double.isNaN(avg) ? "N/A" : String.format("%.2f", avg)));
+        System.out.println("Highest Grade: " + (Float.isNaN(max) ? "N/A" : String.format("%.2f", max)));
+        System.out.println("Lowest Grade: " + (Float.isNaN(min) ? "N/A" : String.format("%.2f", min)));
+    
+        System.out.println("---------------------------------");
+    }
+
+    private static void searchCourses() {
+        System.out.print("\nEnter Course Name: ");
+        String courseName = sc.nextLine().trim();
+        Course course = courseManager.getCourseByName(courseName); 
+        if (course == null) {
+            System.out.println("Course doesn't exist.");
+        } else {
+            displayCourseReport(course);
+        }
+    }
+
+    private static void displayCourseReport(Course course) {
+        System.out.println("Course Name: " + course.getCourseName());
+        System.out.println("Course Code: " + course.getCourseCode());
+        System.out.println("Instructor: " + course.getInstructor());
+        System.out.println("Enrolled Students:");
+    
+        List<Student> enrolledStudents = studentManager.getStudentsInCourse(course.getCourseCode(), courseManager);
+        if (enrolledStudents.isEmpty()) {
+            System.out.println("No students are currently enrolled in this course.");
+        } else {
+            for (Student student : enrolledStudents) {
+                Float grade = gradeManager.getGrade(course.getCourseCode(), student.getStudentId());
+                String gradeStr = (grade == null) ? "No grade assigned" : String.format("%.2f", grade);
+                System.out.println("Student: " + student.getName() + " (ID: " + student.getStudentId() + ") - Grade: " + gradeStr);
+            }
+        }
+        System.out.println("---------------------------------");
+    }
+    
 }

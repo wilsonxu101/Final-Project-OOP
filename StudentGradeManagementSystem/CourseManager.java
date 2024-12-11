@@ -54,4 +54,13 @@ public class CourseManager {
         }
         return null;
     }
+
+    public Course getCourseByName(String courseName) {
+        for (Course course : courses) {
+            if (course.getCourseName().equalsIgnoreCase(courseName)) {
+                return course;
+            }
+        }
+        return null;
+    } 
 }
