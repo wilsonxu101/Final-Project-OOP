@@ -1,3 +1,4 @@
+
 public class Grade {
     private String code;
     private String studentId;
@@ -21,7 +22,7 @@ public class Grade {
         return grade;
     }
 
-    public void setGrade(int grade) {
+    public void setGrade(float grade) {
         this.grade = grade;
     }
 }

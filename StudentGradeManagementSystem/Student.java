@@ -27,14 +27,11 @@ public class Student {
     }
 
     public boolean addCourse(Course course) {
-        for (Course c : enrolledCourses) {
-            if (c.getCourseCode().equals(course.getCourseCode())) {
-                return false;
-            }
+        if (!enrolledCourses.contains(course)) {
+            enrolledCourses.add(course);
+            return true;
         }
-
-        enrolledCourses.add(course);
-        return true;
+        return false;
     }
 
     public List<Course> getEnrolledCourses() {

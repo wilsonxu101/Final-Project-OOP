@@ -58,9 +58,9 @@ public class Main {
                 case "4":
                     searchRecords();
                     break;
-                // case "5":
-                // generateReportsMenu();
-                // break;
+                case "5":
+                    generateReport();
+                    break;
                 case "6":
                     System.out.println(
                             "\nThank you for using the Student Grade Management System! This is a reminder that all data will be lost.");
@@ -284,10 +284,9 @@ public class Main {
             System.out.println("Invalid input.");
             return;
         }
-    
         gradeManager.setGrades(courseCode, studentId, grade, courseManager, studentManager);
-    
     }
+
     private static void searchRecords() {
         while (true) {
             System.out.println("\nSearch Records:");
@@ -332,7 +331,7 @@ public class Main {
             System.out.println("No courses enrolled.");
         } else {
             for (Course course : enrolledCourses) {
-                Float grade = gradeManager.getGrade(s.getStudentId(), course.getCourseCode());
+                Float grade = gradeManager.getGrades(s.getStudentId(), course.getCourseCode());
                 String gradeStr = (grade == null) ? "No grade assigned" : String.format("%.2f", grade);
                 System.out.println("  - " + course.getCourseName() + " (" + course.getCourseCode() + "): " + gradeStr);
             }
@@ -370,13 +369,18 @@ public class Main {
         if (enrolledStudents.isEmpty()) {
             System.out.println("No students are currently enrolled in this course.");
         } else {
-            for (Student student : enrolledStudents) {
-                Float grade = gradeManager.getGrade(course.getCourseCode(), student.getStudentId());
+            for (Student s : enrolledStudents) {
+                Float grade = gradeManager.getGrades(s.getStudentId(), course.getCourseCode());
                 String gradeStr = (grade == null) ? "No grade assigned" : String.format("%.2f", grade);
-                System.out.println("Student: " + student.getName() + " (ID: " + student.getStudentId() + ") - Grade: " + gradeStr);
+                System.out.println("Student: " + s.getName() + " (ID: " + s.getStudentId() + ") - Grade: " + gradeStr);
             }
         }
         System.out.println("---------------------------------");
     }
-    
+
+    private static void generateReport() {
+        System.out.print("Enter Course Code to generate report: ");
+        String courseCode = sc.nextLine().trim();
+        gradeManager.generateCourseReport(courseCode, courseManager, studentManager);
+    }
 }
