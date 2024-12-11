@@ -10,22 +10,21 @@ public class Main {
     private static Scanner sc = new Scanner(System.in);
 
     public static void main(String[] args) {
-        // user specifies if student or faculty
+        
         System.out.println("Welcome to the Student Grade Management System!");
 
-        String userType = "";
-
-        while (true) {
-            System.out.print("Enter (s) if you are a student or (f) if you are faculty: ");
-            userType = sc.nextLine().trim();
+        while (true) { 
+            System.out.print("Enter (s) if you are a student, (f) if you are faculty, or (q) to quit: "); // CHANGED
+            String userType = sc.nextLine().trim().toLowerCase();
             if (userType.equals("s") || userType.equals("f")) {
-                break;
+                runMainMenu(userType);
+            } else if (userType.equals("q")) { 
+                System.out.println("Exiting the program. Reminder that all data will be lost!");
+                break; 
             } else {
-                System.out.println("Invalid input, try again with either 's' or 'f'.");
+                System.out.println("Invalid input, try again with 's', 'f', or 'q' to quit.");
             }
         }
-
-        runMainMenu(userType.toLowerCase()); // starts the main menu for user to interact
     }
 
     private static void runMainMenu(String userType) {
@@ -41,32 +40,47 @@ public class Main {
             } else {
                 System.out.println("4. Search Records");
             }
-            System.out.println("6. Exit");
+            System.out.println("6. Exit"); 
 
             System.out.print("Please select an option: ");
             String choice = sc.nextLine().trim();
             switch (choice) {
                 case "1":
-                    manageStudents();
+                    if (userType.equals("f")) {
+                        manageStudents();
+                    } else {
+                        System.out.println("Invalid input. Please select a valid option.");
+                    }
                     break;
                 case "2":
-                    manageCourses();
+                    if (userType.equals("f")) {
+                        manageCourses();
+                    } else {
+                        System.out.println("Invalid input. Please select a valid option.");
+                    }
                     break;
                 case "3":
-                    assignGrades();
+                    if (userType.equals("f")) {
+                        assignGrades();
+                    } else {
+                        System.out.println("Invalid input. Please select a valid option.");
+                    }
                     break;
                 case "4":
                     searchRecords();
                     break;
                 case "5":
-                    generateReport();
+                    if (userType.equals("f")) {
+                        generateReport();
+                    } else {
+                        System.out.println("Invalid input. Please select a valid option.");
+                    }
                     break;
                 case "6":
-                    System.out.println(
-                            "\nThank you for using the Student Grade Management System! This is a reminder that all data will be lost.");
-                    return;
+                    
+                    return; 
                 default:
-                    System.out.println("Invalid input. Please select a valid option (1-6).");
+                    System.out.println("Invalid input. Please select a valid option.");
             }
         }
     }
